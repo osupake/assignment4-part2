@@ -1,0 +1,27 @@
+.formContainer {
+    width: 100%;
+    clear: both;
+}
+
+.formContainer input {
+    width: 100%;
+    clear: both;
+}
+
+fieldset {
+	width: 350px;
+	margin-bottom: 20px;
+}
+
+body {
+	font-family: Verdana, sans-serif;
+}
+
+ul li {
+	list-style: none;
+	padding-bottom: 5px;
+}
+
+ul {
+	padding-left: 0px;
+}
