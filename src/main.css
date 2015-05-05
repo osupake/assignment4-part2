@@ -1,3 +1,8 @@
+#wrapper {
+	width: 960px;
+	margin: 0 auto;
+}
+
 .formContainer {
     width: 100%;
     clear: both;
@@ -24,4 +29,16 @@ ul li {
 
 ul {
 	padding-left: 0px;
+}
+
+table {
+	border: 1px;
+}
+
+th, td {
+	width: 50px;
+}
+
+th {
+	text-align: left;
 }

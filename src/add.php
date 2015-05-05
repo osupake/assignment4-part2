@@ -1,3 +1,11 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="main.css">
+	<title>Eugene Pak | CS290 Assignment 4 Part 2</title>
+</head>
+<body>
 <?php
 ini_set('display_errors', 'On');
 include 'storedInfo.php';
@@ -7,17 +15,30 @@ if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
 
-$name = $_POST["title"];
-$category = $_POST["category"];
-$length = $_POST["length"];
+//delete all movies from database
+if(isset($_POST['deleteAll']) && ($_POST['deleteAll'] == "Delete All Movies")){
+    $mysqli->query("DELETE FROM movies");
+    echo "All movies deleted. ";
+}
 
-//var_dump($name);
-//var_dump($category);
-//var_dump($length);
+//add movie to database
+if(isset($_POST['title']) && isset($_POST['category']) && isset($_POST['length'])) {
+	$name = isset($_POST['title']) ? $_POST['title'] : '';
+	$category = isset($_POST['category']) ? $_POST['category'] : '';
+	$length = isset($_POST['length']) ? $_POST['length'] : '';
 
-$stmt = $mysqli->prepare("INSERT INTO movies (name, category, length) VALUES (?, ?, ?)");
-$stmt->bind_param("ssi", $name, $category, $length);
+	if (!($stmt = $mysqli->prepare("INSERT INTO movies (name, category, length) VALUES (?, ?, ?)"))) {
+	     echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+	}
 
-$stmt->execute();
-$stmt->close();
+	$stmt->bind_param("ssi", $name, $category, $length);
+
+	$stmt->execute();
+	$stmt->close();
+}
+
+echo "Click <a href=\"index.html\">here</a> to go back."
 ?>
+
+</body>
+</html>

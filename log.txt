@@ -1,0 +1,7 @@
+Start: Tue, 5 May 2015 16:51:06 -0400
+End: Tue, 5 May 2015 16:51:06 -0400
+Tasks: created files. implemented basic feature of adding movies to database
+
+Start: Tue, 5 May 2015 14:44:48 -0400
+End: Tue, 5 May 2015 14:44:48 -0400
+Tasks: :space_invader: Added .gitattributes & .gitignore files
