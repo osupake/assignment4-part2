@@ -30,15 +30,3 @@ ul li {
 ul {
 	padding-left: 0px;
 }
-
-table {
-	border: 1px;
-}
-
-th, td {
-	width: 50px;
-}
-
-th {
-	text-align: left;
-}
