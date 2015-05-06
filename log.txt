@@ -1,3 +1,7 @@
+Start: Wed, 6 May 2015 10:30:00 -0400
+End: Wed, 6 May 2015 12:30:29 -0400
+Tasks: Worked on check in/check out feature and delete row.
+
 Start: Wed, 5 May 2015 20:30:00 -0400
 End: Wed, 6 May 2015 00:06:22 -0400
 Tasks: Added view inventory feature that outputs the database to a HTML table.

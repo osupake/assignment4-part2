@@ -13,8 +13,9 @@
 		}
 		td {
 			border: 1px solid black;
+			text-align: center;
 		}
-		input {
+		button {
 		    width: 100%;
 		    clear: both;
 		}
@@ -31,6 +32,7 @@ if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
 
+//change status to available or check out
 function changeStatus($id, $mysqli){
 	if (!($change = $mysqli->prepare("UPDATE movies SET rented = !rented WHERE id=?"))) {
 	     echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
@@ -41,6 +43,7 @@ function changeStatus($id, $mysqli){
 	$change->close();
 }
 
+//delete a row in database to remove movie
 function deleteEntry($id, $mysqli){
 	if (!($delete = $mysqli->prepare("DELETE FROM movies WHERE id=?"))) {
 	     echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
@@ -51,6 +54,9 @@ function deleteEntry($id, $mysqli){
 	$delete->close();
 }
 
+$filteredCategory = "viewAll"; //default set to view all movies
+
+//perform changeStatus or deleteEntry or filter if applicable
 if ($_POST) {
 	if(isset($_POST['changeStatus'])) {
 		$id = $_POST['changeStatus'];	
@@ -62,11 +68,36 @@ if ($_POST) {
 		$id = $_POST ['deleteEntry'];
 		deleteEntry($id, $mysqli);
 	}
+
+	if(isset($_POST['filter'])) {
+		$filteredCategory = $_POST['filter'];
+	}
 }
 
+//query to get distinct categories
+$categoryQuery = "SELECT DISTINCT category FROM movies";
+$categoryResults = $mysqli->query($categoryQuery);
 
-$viewAllQuery = "SELECT id, name, category, length, rented FROM movies";
-$results = $mysqli->query($viewAllQuery);
+//create drop down box with options
+if ($categoryResults->num_rows > 0) {
+	echo "<form action=\"view.php\" method=\"POST\">";
+	echo "<select name=\"filter\">";
+	echo "<option value=\"viewAll\">View All</option>";
+	while ($row = $categoryResults->fetch_assoc()) {
+		echo "<option value=\"" . $row['category']  . "\">" . $row['category'] . "</option>";	
+	}
+	echo "</select>";
+	echo "<input type=\"submit\" value=\"Filter Movies\"></form><br>";
+}
+
+//determine which query is used to get results to put into HTML table
+if($filteredCategory != "viewAll") {
+	$viewQuery = "SELECT id, name, category, length, rented FROM movies WHERE category=\"" . $filteredCategory . "\"";
+} else if ($filteredCategory == "viewAll") {
+	$viewQuery = "SELECT id, name, category, length, rented FROM movies";
+}
+
+$results = $mysqli->query($viewQuery);
 
 //generate HTML table to display results from movies database
 if ($results->num_rows > 0) {
@@ -83,8 +114,8 @@ if ($results->num_rows > 0) {
 		
 		echo "<tr><td>" . $row['name'] . "</td>";
 		echo "<td>" . $row['category'] . "</td>";
-		echo "<td>" . $row['length'] . "</td>"; //pass id to form
-		echo "<td>" . $rentedStatus . "<form action=\"view.php\" method=\"POST\"><button type=\"submit\" name=\"changeStatus\" value=\"" . $row['id'] . "\">Change Status</button></td>";
+		echo "<td>" . $row['length'] . "</td>"; 
+		echo "<td>" . $rentedStatus . "<form action=\"view.php\" method=\"POST\"><button type=\"submit\" name=\"changeStatus\" value=\"" . $row['id'] . "\">Change Status</button></td>"; //pass id to form
 		echo "<td>Remove Movie<button type=\"submit\" name=\"deleteEntry\" value=\"" . $row['id'] . "\">Delete</button></td></tr></form>";
 	}
 	echo "</tbody></table>";

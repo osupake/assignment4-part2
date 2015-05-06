@@ -10,29 +10,33 @@
 	</header>
 	<div id="wrapper">
 		<div class="formContainer">
-			<form action="add.php" method="post">
-				<fieldset>
-					<p>Add Movie</p>
-					<ul>
-						<li><label for="title">Title:</label><input type="text" name="title" id="title" required></li>
-						<li><label for="category">Category: </label><input type="text" name="category" id="category" required></li>
-						<li><label for="length">Length:</label><input type="number" name="length" id="length" min="0" required></li>
-					</ul>
-					<input type="submit" name="add" value="Add">
-				</fieldset>
-			</form>
-			<form action="add.php" method="post">
-				<fieldset>
-					<p>Clear Movies</p>
-					<input type="submit" name="deleteAll" value="Delete All Movies">
-				</fieldset>
-			</form>
-			<form action="view.php" method="post">
-				<fieldset>
-					<p>View Movie Inventory</p>
-					<input type="submit" name="view" value="View Movie Inventory">
-				</fieldset>
-			</form>
+			<div id="left">
+				<form action="add.php" method="post">
+					<fieldset>
+						<p>Add Movie</p>
+						<ul>
+							<li><label for="title">Title:</label><input type="text" name="title" id="title" required></li>
+							<li><label for="category">Category: </label><input type="text" name="category" id="category" required></li>
+							<li><label for="length">Length:</label><input type="number" name="length" id="length" min="0" required></li>
+						</ul>
+						<input type="submit" name="add" value="Add">
+					</fieldset>
+				</form>
+			</div>
+			<div id="right">
+				<form action="view.php" method="post">
+					<fieldset>
+						<p>View Movie Inventory</p>
+						<input type="submit" name="view" value="View Movie Inventory">
+					</fieldset>
+				</form>
+				<form action="add.php" method="post">
+					<fieldset>
+						<p>Clear Movies</p>
+						<input type="submit" name="deleteAll" value="Delete All Movies">
+					</fieldset>
+				</form>
+			</div>
 		</div>
 	</div>
 

@@ -35,9 +35,10 @@ if(isset($_POST['title']) && isset($_POST['category']) && isset($_POST['length']
 
 	$stmt->execute();
 	$stmt->close();
+	echo "Movie added. ";
 }
 
-echo "Click <a href=\"index.html\">here</a> to go back."
+echo "<br>Click <a href=\"index.html\">here</a> to go back.<br>Click <a href=\"view.php\">here</a> to go to the inventory."
 ?>
 
 </body>
