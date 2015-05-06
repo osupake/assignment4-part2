@@ -31,8 +31,42 @@ if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
 
-$viewQuery = "SELECT id, name, category, length, rented FROM movies";
-$results = $mysqli->query($viewQuery);
+function changeStatus($id, $mysqli){
+	if (!($change = $mysqli->prepare("UPDATE movies SET rented = !rented WHERE id=?"))) {
+	     echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+	}
+
+	$change->bind_param("i", $id);
+	$change->execute();
+	$change->close();
+}
+
+function deleteEntry($id, $mysqli){
+	if (!($delete = $mysqli->prepare("DELETE FROM movies WHERE id=?"))) {
+	     echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+	}
+
+	$delete->bind_param("i", $id);
+	$delete->execute();
+	$delete->close();
+}
+
+if ($_POST) {
+	if(isset($_POST['changeStatus'])) {
+		$id = $_POST['changeStatus'];	
+		changeStatus($id, $mysqli);
+		//var_dump($id);
+	}
+
+	if(isset($_POST['deleteEntry'])) {
+		$id = $_POST ['deleteEntry'];
+		deleteEntry($id, $mysqli);
+	}
+}
+
+
+$viewAllQuery = "SELECT id, name, category, length, rented FROM movies";
+$results = $mysqli->query($viewAllQuery);
 
 //generate HTML table to display results from movies database
 if ($results->num_rows > 0) {
@@ -50,8 +84,8 @@ if ($results->num_rows > 0) {
 		echo "<tr><td>" . $row['name'] . "</td>";
 		echo "<td>" . $row['category'] . "</td>";
 		echo "<td>" . $row['length'] . "</td>"; //pass id to form
-		echo "<td>" . $rentedStatus . "<form action=\"rent.php\" method=\"post\"><input type=\"submit\" value=\"Change Status\"></form></td>";
-		echo "<td>Remove Entry<form action=\"deleteRow.php\" method=\"post\"><input type=\"submit\" value=\"Delete\"></form></td></tr>";
+		echo "<td>" . $rentedStatus . "<form action=\"view.php\" method=\"POST\"><button type=\"submit\" name=\"changeStatus\" value=\"" . $row['id'] . "\">Change Status</button></td>";
+		echo "<td>Remove Movie<button type=\"submit\" name=\"deleteEntry\" value=\"" . $row['id'] . "\">Delete</button></td></tr></form>";
 	}
 	echo "</tbody></table>";
 } else {
