@@ -1,3 +1,7 @@
+Start: Wed, 6 May 2015 15:00:00 -0400
+End: Wed, 6 May 2015 17:07:42 -0400
+Tasks: added filtering by category and cleaned up HTML
+
 Start: Wed, 6 May 2015 10:30:00 -0400
 End: Wed, 6 May 2015 12:30:29 -0400
 Tasks: Worked on check in/check out feature and delete row.
